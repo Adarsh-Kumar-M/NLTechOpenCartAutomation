@@ -1,0 +1,49 @@
+<!--To Run the Tests in the sequential mode-->
+<!--<suite name="NLTECH Opencart Application Test Regression Suite" verbose="4">-->
+
+<!--To Ru the Tests in Parallel mode-->
+<suite name="NLTECH Opencart Application Test Regression Suite" verbose="4" thread-count='5' parallel='tests'>
+
+    <listeners>
+        <listener
+                class-name="com.aventstack.chaintest.plugins.ChainTestListener" />
+        <listener
+                class-name="com.qa.opencart.listeners.TestAllureListener" />
+
+        <listener
+                class-name="com.qa.opencart.listeners.AnnotationTransformer" />
+    </listeners>
+
+    <test name="Login Page Test">
+        <classes>
+            <class name="com.qa.opencart.tests.LoginPageTest" />
+        </classes>
+    </test>
+
+    <test name="Accounts Page Test">
+        <classes>
+            <class name="com.qa.opencart.tests.AccountPageTest" />
+        </classes>
+    </test>
+
+  	<test name="Search Page Test">
+            <classes>
+                <class name="com.qa.opencart.tests.SearchProductTest" />
+            </classes>
+        </test>
+
+        <test name="ProductInfo Page Test">
+            <classes>
+                <class name="com.qa.opencart.tests.ProductInfoTest" />
+            </classes>
+        </test>
+
+            <test name="Register Page Test">
+            <classes>
+                <class name="com.qa.opencart.tests.RegisterPageTest" />
+            </classes>
+        </test>-->
+
+
+</suite>
+
