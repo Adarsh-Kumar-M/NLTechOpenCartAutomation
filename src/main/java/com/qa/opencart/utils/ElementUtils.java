@@ -354,6 +354,5 @@ public class ElementUtils {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeOut));
         wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
         log.info("Element clicked after waiting for clickability: " + locator);
-
     }
 }
