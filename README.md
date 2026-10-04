@@ -337,7 +337,7 @@ This is an educational and practical Selenium framework built for OpenCart autom
 
 ## License
 
-This project is currently a personal/public repository without a specific license file. Check the repository settings if you intend to publish or reuse it under a formal license.
+This project is currently a personal/public repository without a specific license file. 
 
 ## Contact
 
