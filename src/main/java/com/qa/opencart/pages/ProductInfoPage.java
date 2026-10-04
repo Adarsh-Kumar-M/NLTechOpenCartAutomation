@@ -62,8 +62,10 @@ public class ProductInfoPage {
 
     private void getProductPriceData()
     {
+        log.info("Getting product price data");
         WebElement price=elUtil.waitForElementVisibility(productPrice, AppConstants.DEFAULT_SHORT_TIME);
         String priceData=price.getText();
+        log.info("Product price: "+priceData);
         productMap.put("Product Price", priceData);
     }
 

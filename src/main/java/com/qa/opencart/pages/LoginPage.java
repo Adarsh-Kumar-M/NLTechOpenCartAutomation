@@ -46,12 +46,16 @@ public class LoginPage {
     }
 
     public boolean IsForgotPwdLinkExist(){
+       log.info("Checking if Forgot Password link exists");
        boolean flag= elUtil.isElementDisplayed(forgotPwdLink);
+       log.info("Forgot Password link exists: "+flag);
        return flag;
     }
 
     public boolean isHeaderExist(){
+        log.info("Checking if Login page header exists");
         boolean flag=elUtil.isElementDisplayed(header);
+        log.info("Login page header exists: "+flag);
         return flag;
     }
 
@@ -67,6 +71,7 @@ public class LoginPage {
 
     public RegisterPage navigateToRegisterPage()
     {
+        log.info("Navigating to Register Page");
         elUtil.waitForElementPresence(register, AppConstants.DEFAULT_SHORT_TIME).click();
         return new RegisterPage(driver);
     }

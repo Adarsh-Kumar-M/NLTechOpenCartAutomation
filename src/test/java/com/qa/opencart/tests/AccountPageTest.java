@@ -1,6 +1,7 @@
 package com.qa.opencart.tests;
 
 import com.qa.opencart.base.BaseTest;
+import com.qa.opencart.constants.AppConstants;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -19,6 +20,7 @@ public class AccountPageTest extends BaseTest {
     {
         List<String> listHeader = accountPage.getAccHeaders();
         Assert.assertEquals(listHeader.size(),3);
+        Assert.assertEquals(accountPage.getTitle(), AppConstants.ACCOUNT_PAGE_TITLE);
     }
 
     @Test
@@ -30,6 +32,6 @@ public class AccountPageTest extends BaseTest {
 
     @Test
     public void searchProductTest(){
-        accountPage.doSearch("imac");
+        accountPage.doSearch(AppConstants.SEARCH_PRODUCT);
     }
 }

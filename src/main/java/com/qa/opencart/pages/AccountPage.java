@@ -29,8 +29,10 @@ public class AccountPage {
         elUtil=new ElementUtils(driver);
     }
 
+
     public List<String> getAccHeaders()
     {
+        log.info("Getting Account page headers");
         List<WebElement> headerElements = elUtil.getElements(headers);
         List<String> headerList=new ArrayList<>();
 
@@ -38,21 +40,31 @@ public class AccountPage {
             String text=e.getText();
             headerList.add(text);
         }
+        log.info("Account page headers: "+headerList);
         return headerList;
+    }
+
+    public String getTitle()
+    {
+        return elUtil.getTitle();
     }
 
     public boolean isLogoutLinkExist()
     {
+        log.info("Checking if Logout link exists");
         boolean flag=elUtil.isElementDisplayed(logoutLink);
+        log.info("Logout link exists: "+flag);
         return flag;
     }
 
     public SearchResultsPage doSearch(String searchValue)
     {
+        log.info("Searching for product: "+searchValue);
         WebElement el = elUtil.waitForElementVisibility(searchBar, AppConstants.DEFAULT_SHORT_TIME);
         el.clear();
         elUtil.doSendKeys(searchBar,searchValue );
         elUtil.doActionsClick(searchIcon);
+        log.info("Search performed successfully");
         return new SearchResultsPage(driver);
     }
 }

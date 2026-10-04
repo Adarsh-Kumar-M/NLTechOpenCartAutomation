@@ -36,21 +36,25 @@ public class DriverFactory {
         {
             case "chrome":
 //                driver=new ChromeDriver();
+                log.info("Initializing Chrome driver");
                 tlDriver.set(new ChromeDriver(optionManager.getChromeOptions()));
                 break;
 
             case "safari":
 //                driver=new SafariDriver();
+                log.info("Initializing Safari driver");
                 tlDriver.set(new SafariDriver());
                 break;
 
             case "edge":
 //                driver=new EdgeDriver();
+                log.info("Initializing Edge driver");
                 tlDriver.set(new EdgeDriver(optionManager.getEdgeOptions()));
                 break;
 
             case "firefox":
 //                driver=new FirefoxDriver();
+                log.info("Initializing Firefox driver");
                 tlDriver.set(new FirefoxDriver(optionManager.getFireFoxOptions() ));
                 break;
 
@@ -60,8 +64,11 @@ public class DriverFactory {
         }
 
         getDriver().manage().deleteAllCookies();
+        log.info("All cookies deleted");
         getDriver().manage().window().maximize();
+        log.info("Browser window maximized");
         getDriver().get(prop.getProperty("url"));
+        log.info("Navigated to URL: "+prop.getProperty("url"));
         return getDriver();
     }
 
@@ -95,6 +102,7 @@ public class DriverFactory {
             }
         }
         prop.load(fp);
+        log.info("Properties file loaded successfully");
         return prop;
 
     }
@@ -106,7 +114,9 @@ public class DriverFactory {
 
     public static File getScreenshotAsFile()
     {
+        log.info("Capturing screenshot");
         File file=((TakesScreenshot)getDriver()).getScreenshotAs(OutputType.FILE);
+        log.info("Screenshot captured successfully");
         return file;
     }
 }

@@ -1,6 +1,7 @@
 package com.qa.opencart.tests;
 
 import com.qa.opencart.base.BaseTest;
+import com.qa.opencart.constants.AppConstants;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -68,18 +69,31 @@ public class ProductInfoTest extends BaseTest {
 
 
 
-    @Test
-    public void productInfoTest() throws InterruptedException
+    @DataProvider
+    public Object[][] getProductInfoData()
+    {
+        Object obj[][]=new Object[1][5];
+        obj[0][0]=AppConstants.PRODUCT_INFO_BRAND;
+        obj[0][1]=AppConstants.PRODUCT_INFO_AVAILABILITY;
+        obj[0][2]=AppConstants.PRODUCT_INFO_PRICE;
+        obj[0][3]=AppConstants.PRODUCT_INFO_CODE;
+        obj[0][4]=AppConstants.PRODUCT_INFO_REWARD_POINTS;
+        return obj;
+    }
+
+    @Test(dataProvider = "getProductInfoData")
+    public void productInfoTest(String expectedBrand, String expectedAvailability,
+                                 String expectedPrice, String expectedCode, String expectedRewardPoints) throws InterruptedException
     {
         SoftAssert sf=new SoftAssert();
-        searchResultsPage=accountPage.doSearch("Macbook");
-        productInfoPage=searchResultsPage.selectProduct("MacBook Pro");
+        searchResultsPage=accountPage.doSearch(AppConstants.SEARCH_PAGE_PRODUCT_SEARCH);
+        productInfoPage=searchResultsPage.selectProduct(AppConstants.SEARCH_PAGE_SELECT_PRODUCT);
         Map<String, String> completeProductInfo = productInfoPage.getCompleteProductInfo();
-        sf.assertEquals(completeProductInfo.get("Brand"), "Apple");
-        sf.assertEquals(completeProductInfo.get("Availability"), "In Stock");
-        sf.assertEquals(completeProductInfo.get("Product Price"), "$2,000.00");
-        sf.assertEquals(completeProductInfo.get("Product Code"), "Product 18");
-        sf.assertEquals(completeProductInfo.get("Reward Points"), "800");
+        sf.assertEquals(completeProductInfo.get("Brand"), expectedBrand);
+        sf.assertEquals(completeProductInfo.get("Availability"), expectedAvailability);
+        sf.assertEquals(completeProductInfo.get("Product Price"), expectedPrice);
+        sf.assertEquals(completeProductInfo.get("Product Code"), expectedCode);
+        sf.assertEquals(completeProductInfo.get("Reward Points"), expectedRewardPoints);
         sf.assertAll();
     }
 }
