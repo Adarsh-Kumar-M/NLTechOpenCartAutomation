@@ -1,5 +1,6 @@
 package com.qa.opencart.utils;
 
+import com.qa.opencart.constants.AppConstants;
 import com.qa.opencart.exceptions.ElementException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -201,15 +202,12 @@ public class ElementUtils {
 // Google Auto SUggestion Click Common Method :
 
     public void doSearchAutoClickSuggestion(By searchLocator, String searchValue, By suggestionLocator,
-                                            String suggestedValue) throws InterruptedException {
+                                            String suggestedValue) {
 
-        Thread.sleep(2000);
-
+        waitForElementPresence(searchLocator, AppConstants.DEFAULT_SHORT_TIME);
         doSendKeys(searchLocator, searchValue);
 
-        Thread.sleep(3000);
-
-        List<WebElement>suggestionList=getElements(suggestionLocator);
+        List<WebElement>suggestionList=waitforElementsPresence(suggestionLocator, AppConstants.DEFAULT_SHORT_TIME);
 
         System.out.println("Total size of the suggestion is : " + suggestionList.size());
 
@@ -312,18 +310,18 @@ public class ElementUtils {
 
     }
 
-    public void menuSubMenuHandlingLevel4(By parentMenuLocator, By subMenu1Locator,By subMenu2Locator,By subMenu3Locator) throws InterruptedException
+    public void menuSubMenuHandlingLevel4(By parentMenuLocator, By subMenu1Locator,By subMenu2Locator,By subMenu3Locator)
     {
 
         doClick(parentMenuLocator);
-        Thread.sleep(2000);
+        waitForElementPresence(subMenu1Locator, AppConstants.DEFAULT_SHORT_TIME);
         act.moveToElement(getElement(subMenu1Locator)).perform();
 
-        Thread.sleep(2000);
+        waitForElementPresence(subMenu2Locator, AppConstants.DEFAULT_SHORT_TIME);
 
         act.moveToElement(getElement(subMenu2Locator)).perform();
 
-        Thread.sleep(2000);
+        waitForElementPresence(subMenu3Locator, AppConstants.DEFAULT_SHORT_TIME);
 
         act.moveToElement(getElement(subMenu3Locator))
                 .click(driver.findElement(subMenu3Locator))
