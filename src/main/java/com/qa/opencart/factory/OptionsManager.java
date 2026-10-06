@@ -37,6 +37,10 @@ public class OptionsManager {
             log.info("Test cases are running on Incognito Mode");
             co.addArguments("--incognito");
         }
+        if(Boolean.parseBoolean(prop.getProperty("remote")))
+        {
+            co.setCapability("browserName", "chrome");
+        }
         return co;
     }
 
@@ -54,6 +58,11 @@ public class OptionsManager {
             log.info("Test cases are running on Incognito Mode");
             fo.addArguments("--incognito");
         }
+
+        if(Boolean.parseBoolean(prop.getProperty("remote")))
+        {
+            fo.setCapability("browserName", "firefox");
+        }
         return fo;
     }
 
@@ -70,6 +79,10 @@ public class OptionsManager {
         {
             log.info("Test cases are running on Incognito Mode");
             eo.addArguments("--inprivate");
+        }
+        if(Boolean.parseBoolean(prop.getProperty("remote")))
+        {
+            eo.setCapability("browserName", "microsoftEdge");
         }
         return eo;
     }

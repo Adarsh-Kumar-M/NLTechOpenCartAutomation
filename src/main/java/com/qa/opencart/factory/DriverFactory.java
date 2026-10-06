@@ -10,11 +10,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
 
 public class DriverFactory {
@@ -26,33 +29,49 @@ public class DriverFactory {
     private static final Logger log= LogManager.getLogger(DriverFactory.class);
     public  OptionsManager optionManager;
 
-    public WebDriver initDriver(Properties prop)
-    {
+    public WebDriver initDriver(Properties prop) throws MalformedURLException {
         optionManager=new OptionsManager(prop);
         String browserName=prop.getProperty("browser");
+        Boolean remoteFlag=Boolean.parseBoolean(prop.getProperty("remote"));
         log.info("Browser name is : "+ browserName);
 
         switch (browserName.trim().toLowerCase())
         {
             case "chrome":
 //                driver=new ChromeDriver();
-                log.info("Initializing Chrome driver");
-                tlDriver.set(new ChromeDriver(optionManager.getChromeOptions()));
+                if(remoteFlag)
+                {
+                    init_RemoteDriver(browserName);
+                }
+                else {
+                    log.info("Initializing Chrome driver");
+                    tlDriver.set(new ChromeDriver(optionManager.getChromeOptions()));
+                }
                 break;
 
-            case "safari":
+            case "firefox ":
 //                driver=new SafariDriver();
-                log.info("Initializing Safari driver");
-                tlDriver.set(new SafariDriver());
+                if(remoteFlag){
+                    init_RemoteDriver(browserName);
+                }
+                else {
+                    log.info("Initializing Safari driver");
+                    tlDriver.set(new SafariDriver());
+                }
                 break;
 
             case "edge":
 //                driver=new EdgeDriver();
-                log.info("Initializing Edge driver");
-                tlDriver.set(new EdgeDriver(optionManager.getEdgeOptions()));
+                if(remoteFlag){
+                    init_RemoteDriver(browserName);
+                }
+                else {
+                    log.info("Initializing Edge driver");
+                    tlDriver.set(new EdgeDriver(optionManager.getEdgeOptions()));
+                }
                 break;
 
-            case "firefox":
+            case "safari":
 //                driver=new FirefoxDriver();
                 log.info("Initializing Firefox driver");
                 tlDriver.set(new FirefoxDriver(optionManager.getFireFoxOptions() ));
@@ -119,4 +138,31 @@ public class DriverFactory {
         log.info("Screenshot captured successfully");
         return file;
     }
+
+
+    private void init_RemoteDriver(String browser) throws MalformedURLException {
+        switch (browser.trim().toLowerCase())
+        {
+            case "chrome":
+                tlDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionManager.getChromeOptions()));
+                break;
+
+            case "firefox":
+                tlDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionManager.getFireFoxOptions()));
+                break;
+
+            case "edge":
+                tlDriver.set(new RemoteWebDriver(new URL(prop.getProperty("huburl")), optionManager.getEdgeOptions()));
+                break;
+
+            default:
+                log.error(AppError.INVALID_BROWSER_MESSG);
+                throw  new FrameworkException("===INVALID BROWSER===");
+
+        }
+
+    }
+
+
+
 }
