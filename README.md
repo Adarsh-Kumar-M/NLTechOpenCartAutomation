@@ -15,6 +15,8 @@ The framework supports:
 - Parallel execution support
 - Screenshot capture on failures
 - Detailed logs and Allure/ChainTest reporting
+- Remote WebDriver execution via Selenium Grid
+- CI/CD integration with Jenkins
 
 ## Tech Stack
 
@@ -106,6 +108,7 @@ Key responsibilities:
 - Properties loading for environment configuration
 - WebDriver retrieval using ThreadLocal
 - Screenshot file generation
+- Remote WebDriver setup for Selenium Grid execution
 
 ### 2. Page Object Model
 Each page of the application is represented by a dedicated Java class inside `src/main/java/com/qa/opencart/pages`.
@@ -218,7 +221,8 @@ username=nltech01@gmail.com
 password=admin@123
 headless=true
 incognito=true
-remote=false
+remote=true
+huburl=http://localhost:4444/wd/hub
 ```
 
 ### Environment Selection
@@ -269,6 +273,18 @@ mvn test -DsuiteXmlFile=src/test/resources/testrunners/testng_regression.xml
 mvn test -Dbrowser=firefox
 ```
 
+### Run with Remote WebDriver (Selenium Grid)
+To execute tests on a remote Selenium Grid, set `remote=true` in the config file and provide the hub URL:
+```properties
+remote=true
+huburl=http://localhost:4444/wd/hub
+```
+
+Alternatively, you can override via command line:
+```bash
+mvn test -Dremote=true -Dhuburl=http://your-selenium-grid:4444/wd/hub
+```
+
 ## Test Suite Files
 
 The project contains TestNG XML files under `src/test/resources/testrunners/`:
@@ -305,6 +321,8 @@ The listeners are configured in the TestNG XML files and capture result-level in
 - Data-driven test execution using Excel/CSV
 - Screenshot on failure
 - Custom wait and element utilities
+- Remote execution via Selenium Grid
+- CI/CD pipeline integration
 
 ## Design Pattern Used
 
@@ -326,14 +344,38 @@ This improves maintainability and reduces duplication.
 - Logging for execution details
 - Externalized test data
 
+## CI/CD Integration with Jenkins
+
+The framework is integrated with Jenkins for automated test execution in CI/CD pipelines. The Jenkins pipeline can be configured to:
+
+- Trigger builds on code changes or scheduled intervals
+- Execute tests in parallel across multiple environments
+- Generate and publish Allure reports
+- Send email notifications on build success/failure
+- Archive test artifacts and logs
+
+### Jenkins Pipeline Configuration
+
+A typical Jenkins pipeline for this framework includes:
+
+1. **Build Stage**: Maven clean install
+2. **Test Stage**: Execute TestNG suites with environment selection
+3. **Report Stage**: Generate Allure reports
+4. **Notification Stage**: Send build status notifications
+
+Example pipeline command:
+```bash
+mvn clean test -Denv=stage -DsuiteXmlFile=src/test/resources/testrunners/testng_regression.xml
+```
+
 ## Notes
 
 This is an educational and practical Selenium framework built for OpenCart automation. It is suitable for both learning and extending into a production-ready test suite with enhancements such as:
-- CI/CD integration
 - Cloud execution (BrowserStack/Sauce Labs)
 - More robust reporting
 - More page coverage
 - API level validation integration
+- Docker containerization for Selenium Grid
 
 ## License
 
