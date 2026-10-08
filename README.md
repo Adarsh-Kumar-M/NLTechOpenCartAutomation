@@ -368,6 +368,65 @@ Example pipeline command:
 mvn clean test -Denv=stage -DsuiteXmlFile=src/test/resources/testrunners/testng_regression.xml
 ```
 
+## Docker Selenium Grid Setup
+
+The framework includes a Docker Compose configuration for running a Selenium Grid with multiple browser nodes. This setup uses Selenium Grid 4 with the distributed architecture (Event Bus, Sessions, Session Queue, Distributor, Router).
+
+### Prerequisites
+- Docker installed on your machine
+- Docker Compose installed
+
+### Start Selenium Grid
+
+To start the Selenium Grid in interactive mode:
+```bash
+docker compose -f docker-compose-v3-full-grid.yml up
+```
+
+To start in detached mode (background):
+```bash
+docker compose -f docker-compose-v3-full-grid.yml up -d
+```
+
+### Stop Selenium Grid
+
+To stop the grid when running in interactive mode, press `Ctrl+C`.
+
+To stop and remove containers when running in detached mode:
+```bash
+docker compose -f docker-compose-v3-full-grid.yml down
+```
+
+### Grid Components
+
+The Docker Compose file includes the following services:
+- **selenium-event-bus**: Handles event communication between components
+- **selenium-sessions**: Manages active test sessions
+- **selenium-session-queue**: Queues session requests
+- **selenium-distributor**: Distributes test sessions to available nodes
+- **selenium-router**: Routes requests to the appropriate component
+- **chrome**: Chrome browser node
+- **edge**: Edge browser node
+- **firefox**: Firefox browser node
+
+### Accessing the Grid
+
+Once the grid is running, you can access it at:
+- Selenium Grid Console: `http://localhost:4444`
+
+### Running Tests with Docker Grid
+
+To execute tests using the Docker Selenium Grid, ensure your configuration has:
+```properties
+remote=true
+huburl=http://localhost:4444/wd/hub
+```
+
+Then run your tests as usual:
+```bash
+mvn test
+```
+
 ## Notes
 
 This is an educational and practical Selenium framework built for OpenCart automation. It is suitable for both learning and extending into a production-ready test suite with enhancements such as:
@@ -375,7 +434,6 @@ This is an educational and practical Selenium framework built for OpenCart autom
 - More robust reporting
 - More page coverage
 - API level validation integration
-- Docker containerization for Selenium Grid
 
 ## License
 
